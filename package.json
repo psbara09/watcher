@@ -1,0 +1,28 @@
+{
+  "name": "watcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-tenant AI-assisted Incident Logging, Verification & Offender Intelligence Platform",
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build:shared": "npm run build -w packages/shared",
+    "build:frontend": "npm run build -w packages/frontend",
+    "build:auth": "npm run build -w services/auth-service",
+    "build:incident": "npm run build -w services/incident-service",
+    "build:verification": "npm run build -w services/verification-service",
+    "build:all": "npm run build:shared && npm run build:auth && npm run build:incident && npm run build:verification && npm run build:frontend",
+    "dev:auth": "npm run dev -w services/auth-service",
+    "dev:incident": "npm run dev -w services/incident-service",
+    "dev:verification": "npm run dev -w services/verification-service",
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:seed": "docker-compose exec postgres psql -U watcher -d watcher -f /docker-entrypoint-initdb.d/seed/01-seed-tenants.sql && docker-compose exec postgres psql -U watcher -d watcher -f /docker-entrypoint-initdb.d/seed/02-seed-users.sql && docker-compose exec postgres psql -U watcher -d watcher -f /docker-entrypoint-initdb.d/seed/03-seed-incidents.sql && docker-compose exec postgres psql -U watcher -d watcher -f /docker-entrypoint-initdb.d/seed/04-seed-evidence.sql && docker-compose exec postgres psql -U watcher -d watcher -f /docker-entrypoint-initdb.d/seed/05-seed-verification.sql"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
